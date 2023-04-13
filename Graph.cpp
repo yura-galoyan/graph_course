@@ -5,6 +5,8 @@
 #include <limits>
 #include <algorithm>
 #include <iterator>
+#include <cmath>
+
 
 Graph::Graph( ){
     
@@ -86,6 +88,50 @@ void Graph::printEdges(const EdgeList& edges,const std::string& msg ){
     std::copy(  std::begin(strVector), std::end(strVector),std::ostream_iterator<std::string>{std::cout,"\n"} );
     std::cout<<std::endl;
 }
+
+EdgeList Graph::getEdgeCoverNP(){
+    std::set<int> coveredVertexes;
+
+    
+    
+    edgeSubsets = getSubsetsOffArray(edges);
+
+    
+
+    printSubsets( edgeSubsets  );
+    
+}
+
+SubsetsType Graph::getSubsetsOffArray(const EdgeList& list){
+
+    int n = edges.size();
+    std::vector<std::pair<int,int>> v;
+    SubsetsType Subsets;
+    Subsets.assign( std::pow(2,n ),v   );
+    for (int i = 0; i < (1 << n); ++i) {
+        for (int j = 0; j < n; ++j) {
+            if (i & (1 << j)) {
+                Subsets[i].push_back(  list[j]  );
+            }
+        }
+    }
+};
+
+
+void Graph::printSubsets( const std::vector<std::vector<std::pair<int,int>>>& subsets ){
+    std::cout<< std::string(100,'-')<<std::endl;
+    
+    for(int i = 0;i< subsets.size(); ++i){
+        for(int j = 0;j<subsets[i].size();++j){
+            std::cout<<subsets[i][j].first<<" "<<subsets[i][j].second<<"| ";
+        }
+        std::cout<<std::endl;
+    }
+
+    std::cout<< std::string(100,'-')<<std::endl;
+};
+
+
 
 
 EdgeList Graph::getEdgeCover(){

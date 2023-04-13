@@ -10,4 +10,6 @@ int main(int argc, char const *argv[])
 
     auto cover = graph.getEdgeCover();
     graph.printEdges(cover, "cover edge of graph consists of this edges:\n");
+
+    graph.getEdgeCoverNP();
 }
