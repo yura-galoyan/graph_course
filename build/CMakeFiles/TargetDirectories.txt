@@ -1,0 +1,3 @@
+/mnt/c/Users/yura/Desktop/graph_course/build/CMakeFiles/graph.dir
+/mnt/c/Users/yura/Desktop/graph_course/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/yura/Desktop/graph_course/build/CMakeFiles/rebuild_cache.dir
