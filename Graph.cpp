@@ -5,7 +5,6 @@
 #include <limits>
 #include <algorithm>
 #include <iterator>
-#include <cmath>
 
 
 Graph::Graph( ){
@@ -94,18 +93,21 @@ EdgeList Graph::getEdgeCoverNP(){
 
     edgeSubsets = getSubsetsOffArray(edges);
 
-    
 
     printSubsets( edgeSubsets  );
+
+    
+
+    return EdgeList{};
     
 }
 
 SubsetsType Graph::getSubsetsOffArray(const EdgeList& list){
 
-    int n = edges.size();
+    int n = list.size();
     std::vector<std::pair<int,int>> v;
     SubsetsType subsets;
-    subsets.assign( std::pow(2,n ),v   );
+    subsets.resize(1 << n,v);
     for (int i = 0; i < (1 << n); ++i) {
         for (int j = 0; j < n; ++j) {
             if (i & (1 << j)) {
@@ -118,17 +120,19 @@ SubsetsType Graph::getSubsetsOffArray(const EdgeList& list){
 };
 
 
-void Graph::printSubsets( const std::vector<std::vector<std::pair<int,int>>>& subsets ){
+void Graph::printSubsets( const SubsetsType& subsets ){
     std::cout<< std::string(100,'-')<<std::endl;
     
     for(int i = 0;i< subsets.size(); ++i){
         for(int j = 0;j<subsets[i].size();++j){
             std::cout<<subsets[i][j].first<<" "<<subsets[i][j].second<<"| ";
+
         }
         std::cout<<std::endl;
     }
-
+    
     std::cout<< std::string(100,'-')<<std::endl;
+    
 };
 
 
