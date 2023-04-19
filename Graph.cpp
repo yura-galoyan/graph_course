@@ -92,8 +92,6 @@ void Graph::printEdges(const EdgeList& edges,const std::string& msg ){
 EdgeList Graph::getEdgeCoverNP(){
     std::set<int> coveredVertexes;
 
-    
-    
     edgeSubsets = getSubsetsOffArray(edges);
 
     
@@ -106,15 +104,17 @@ SubsetsType Graph::getSubsetsOffArray(const EdgeList& list){
 
     int n = edges.size();
     std::vector<std::pair<int,int>> v;
-    SubsetsType Subsets;
-    Subsets.assign( std::pow(2,n ),v   );
+    SubsetsType subsets;
+    subsets.assign( std::pow(2,n ),v   );
     for (int i = 0; i < (1 << n); ++i) {
         for (int j = 0; j < n; ++j) {
             if (i & (1 << j)) {
-                Subsets[i].push_back(  list[j]  );
+                subsets[i].push_back(  list[j]  );
             }
         }
     }
+
+    return subsets;
 };
 
 
