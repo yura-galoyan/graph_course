@@ -7,9 +7,6 @@
 #include <iterator>
 
 
-Graph::Graph( ){
-    
-}
 
 Graph::Graph(std::string pathToInputFile ){
     init(pathToInputFile);
@@ -32,7 +29,7 @@ void Graph::init( std::string pathToInputFile){
     
 };
 
-Matrix Graph::createAdjacencyMatrix(const std::vector< std::pair<int,int>>& edges,const int size){
+Graph::Matrix Graph::createAdjacencyMatrix(const std::vector< std::pair<int,int>>& edges,const int size){
     std::vector<int> temp;
     Matrix temp1;
 
@@ -63,7 +60,7 @@ void Graph::printAdjacencyMatrix(){
 
 
 
-void Graph::printEdges(const std::string& msg ){
+void Graph::printEdgeList(const std::string& msg ){
     std::cout<<msg;
     std::vector<std::string> strVector;
     std::transform(  std::begin(edges), std::end(edges), std::back_inserter(strVector),[](const std::pair<int,int>& elem){
@@ -76,7 +73,7 @@ void Graph::printEdges(const std::string& msg ){
 }
 
 
-void Graph::printEdges(const EdgeList& edges,const std::string& msg ){
+void Graph::printEdgeList(const EdgeList& edges,const std::string& msg ){
     
     std::vector<std::string> strVector;
     std::transform(  std::begin(edges), std::end(edges), std::back_inserter(strVector),[](const std::pair<int,int>& elem){
@@ -88,25 +85,36 @@ void Graph::printEdges(const EdgeList& edges,const std::string& msg ){
     std::cout<<std::endl;
 }
 
-EdgeList Graph::getEdgeCoverNP(){
+Graph::EdgeList Graph::getEdgeCoverNP(){
     std::set<int> coveredVertexes;
 
     edgeSubsets = getSubsetsOffArray(edges);
 
+    
+
+    for(const auto& edgeSubset: edgeSubsets)
+        if(isEdgeCover(edgeSubset)){
+
+        };
 
     printSubsets( edgeSubsets  );
-
-    
 
     return EdgeList{};
     
 }
 
-SubsetsType Graph::getSubsetsOffArray(const EdgeList& list){
+bool Graph::isEdgeCover(const EdgeList& edgeSubsets){
+
+    std::unordered_set<int> coveredVertexes;
+
+    return false;
+}
+
+Graph::Subsets Graph::getSubsetsOffArray(const EdgeList& list){
 
     int n = list.size();
     std::vector<std::pair<int,int>> v;
-    SubsetsType subsets;
+    Subsets subsets;
     subsets.resize(1 << n,v);
     for (int i = 0; i < (1 << n); ++i) {
         for (int j = 0; j < n; ++j) {
@@ -120,7 +128,7 @@ SubsetsType Graph::getSubsetsOffArray(const EdgeList& list){
 };
 
 
-void Graph::printSubsets( const SubsetsType& subsets ){
+void Graph::printSubsets( const Subsets& subsets ){
     std::cout<< std::string(100,'-')<<std::endl;
     
     for(int i = 0;i< subsets.size(); ++i){
@@ -138,7 +146,7 @@ void Graph::printSubsets( const SubsetsType& subsets ){
 
 
 
-EdgeList Graph::getEdgeCover(){
+Graph::EdgeList Graph::getEdgeCover(){
     
     std::set<int> coveredVertexes;
 
@@ -157,7 +165,3 @@ EdgeList Graph::getEdgeCover(){
 
 
 };
-
-Graph::~Graph(){
-
-}

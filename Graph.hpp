@@ -2,42 +2,41 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <unordered_set>
 
-
-using Matrix =  std::vector<std::vector <int >>;
-using EdgeList = std::vector<std::pair<int,int>>;
-using SubsetsType = std::vector<std::vector<std::pair<int,int>>>;
-
-class Graph
-{
+class Graph{
 private:
-    EdgeList edges;
-    Matrix adjacencyMatrix;
-    SubsetsType edgeSubsets;
-    
-    bool isEmpty = true;
-    
-    Matrix createAdjacencyMatrix(const std::vector<std::pair<int,int>>& edges, int size);
-    SubsetsType getSubsetsOffArray(const EdgeList& list);
-
-
-    std::set<int> vertexes;
-
+    using Matrix =  std::vector<std::vector <int > >;
+    using Edge = std::pair<int,int>;
+    using EdgeList = std::vector<Edge>;
+    using Subsets = std::vector<EdgeList>;
 
 public:
+    Graph(  ) = default;
     Graph( std::string pathToInputFile );
-    Graph(  );
 
     void init( std::string pathToInputFile);
     void printAdjacencyMatrix();
-    void printSubsets( const SubsetsType& matrix );
-    void printEdges(const std::string& msg = "");
-    void printEdges(const EdgeList& edges,const std::string& msg = "");
-
+    void printSubsets( const Subsets& matrix );
+    void printEdgeList(const std::string& msg = "");
+    void printEdgeList(const EdgeList& edges,const std::string& msg = "");
 
     EdgeList getEdgeCover();
     EdgeList getEdgeCoverNP();
 
+private:
+    EdgeList edges;
+    Matrix adjacencyMatrix;
+    Subsets edgeSubsets;
+    
+    bool isEmpty = true;
+    
 
-    ~Graph();
+    Matrix createAdjacencyMatrix(const std::vector<std::pair<int,int>>& edges, int size);
+    Subsets getSubsetsOffArray(const EdgeList& list);
+    bool isEdgeCover(const EdgeList&);
+
+    std::set<int> vertexes;
+
+
 };
