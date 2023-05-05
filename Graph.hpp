@@ -36,7 +36,7 @@ private:
     Subsets getSubsetsOffArray(const EdgeList& list);
     bool isEdgeCover(const EdgeList&);
 
-    std::set<int> vertexes;
+    std::unordered_set<int> vertexes;
 
 
 };

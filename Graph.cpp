@@ -61,15 +61,7 @@ void Graph::printAdjacencyMatrix(){
 
 
 void Graph::printEdgeList(const std::string& msg ){
-    std::cout<<msg;
-    std::vector<std::string> strVector;
-    std::transform(  std::begin(edges), std::end(edges), std::back_inserter(strVector),[](const std::pair<int,int>& elem){
-        return std::to_string( elem.first ) + " " + std::to_string(elem.second);
-    } );
-
-
-    std::copy(  std::begin(strVector), std::end(strVector),std::ostream_iterator<std::string>{std::cout,"\n"} );
-    std::cout<<std::endl;
+    printEdgeList(edges,msg);
 }
 
 
@@ -86,26 +78,32 @@ void Graph::printEdgeList(const EdgeList& edges,const std::string& msg ){
 }
 
 Graph::EdgeList Graph::getEdgeCoverNP(){
-    std::set<int> coveredVertexes;
 
     edgeSubsets = getSubsetsOffArray(edges);
 
-    
+    ///TODO:
 
     for(const auto& edgeSubset: edgeSubsets)
         if(isEdgeCover(edgeSubset)){
 
+            std::cout<<"is edge Cover"<<std::endl;
+            printEdgeList(edgeSubset);
         };
-
-    printSubsets( edgeSubsets  );
 
     return EdgeList{};
     
 }
 
-bool Graph::isEdgeCover(const EdgeList& edgeSubsets){
+bool Graph::isEdgeCover(const EdgeList& edgeSubset){
 
     std::unordered_set<int> coveredVertexes;
+
+    for(const auto& [u,v]: edgeSubset){
+        coveredVertexes.insert(u);
+        coveredVertexes.insert(v);
+    }
+
+    if(coveredVertexes.size() == vertexes.size()) return true;
 
     return false;
 }
@@ -134,17 +132,13 @@ void Graph::printSubsets( const Subsets& subsets ){
     for(int i = 0;i< subsets.size(); ++i){
         for(int j = 0;j<subsets[i].size();++j){
             std::cout<<subsets[i][j].first<<" "<<subsets[i][j].second<<"| ";
-
         }
         std::cout<<std::endl;
     }
-    
+  
     std::cout<< std::string(100,'-')<<std::endl;
     
 };
-
-
-
 
 Graph::EdgeList Graph::getEdgeCover(){
     
