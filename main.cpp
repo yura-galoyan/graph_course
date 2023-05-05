@@ -8,10 +8,8 @@ int main(int argc, char const *argv[])
     graph.printAdjacencyMatrix();
     graph.printEdgeList("Edges of graph are:\n");
 
-    auto cover = graph.getEdgeCover();
-    graph.printEdgeList(cover, "cover edge of graph consists of this edges:\n");
-
-    auto a = graph.getEdgeCoverNP();
+    auto cover = graph.getEdgeCoverNP();
+    graph.printEdgeList(cover,"minimum edge cover is");
 
 
 

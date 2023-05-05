@@ -1,3 +1,6 @@
+#ifndef GRAPH_HPP
+#define GRAPH_HPP
+
 
 #include <string>
 #include <vector>
@@ -21,16 +24,19 @@ public:
     void printEdgeList(const std::string& msg = "");
     void printEdgeList(const EdgeList& edges,const std::string& msg = "");
 
-    EdgeList getEdgeCover();
+    EdgeList getEdgeCoverHeuristics();
     EdgeList getEdgeCoverNP();
 
 private:
+    
     EdgeList edges;
     Matrix adjacencyMatrix;
     Subsets edgeSubsets;
     
     bool isEmpty = true;
     
+
+
 
     Matrix createAdjacencyMatrix(const std::vector<std::pair<int,int>>& edges, int size);
     Subsets getSubsetsOffArray(const EdgeList& list);
@@ -40,3 +46,5 @@ private:
 
 
 };
+
+#endif //GRAPH_HPP

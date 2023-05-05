@@ -1,5 +1,5 @@
-
 #include "Graph.hpp"
+
 #include <iostream>
 #include <fstream>
 #include <limits>
@@ -16,7 +16,7 @@ void Graph::init( std::string pathToInputFile){
     std::ifstream file;
     file.open("../" + pathToInputFile);
     if(!file.is_open()){
-        std::cout<<"failed to open file"<<std::endl;
+        throw std::runtime_error("failed to open file");
     }
     int max = std::numeric_limits<int>::min();
     int u = 0,v = 0;
@@ -67,12 +67,13 @@ void Graph::printEdgeList(const std::string& msg ){
 
 void Graph::printEdgeList(const EdgeList& edges,const std::string& msg ){
     
+    std::cout<<msg;
+    
     std::vector<std::string> strVector;
     std::transform(  std::begin(edges), std::end(edges), std::back_inserter(strVector),[](const std::pair<int,int>& elem){
         return std::to_string( elem.first ) + " " + std::to_string(elem.second);
     } );
 
-    std::cout<<msg;
     std::copy(  std::begin(strVector), std::end(strVector),std::ostream_iterator<std::string>{std::cout,"\n"} );
     std::cout<<std::endl;
 }
@@ -81,17 +82,16 @@ Graph::EdgeList Graph::getEdgeCoverNP(){
 
     edgeSubsets = getSubsetsOffArray(edges);
 
-    ///TODO:
+    
+    EdgeList minEdgeList = getEdgeCoverHeuristics();
 
     for(const auto& edgeSubset: edgeSubsets)
         if(isEdgeCover(edgeSubset)){
-
-            std::cout<<"is edge Cover"<<std::endl;
-            printEdgeList(edgeSubset);
+            minEdgeList = minEdgeList.size() > edgeSubset.size() ? edgeSubset : minEdgeList;
         };
-
-    return EdgeList{};
+    return minEdgeList;
     
+
 }
 
 bool Graph::isEdgeCover(const EdgeList& edgeSubset){
@@ -102,7 +102,6 @@ bool Graph::isEdgeCover(const EdgeList& edgeSubset){
         coveredVertexes.insert(u);
         coveredVertexes.insert(v);
     }
-
     if(coveredVertexes.size() == vertexes.size()) return true;
 
     return false;
@@ -140,9 +139,9 @@ void Graph::printSubsets( const Subsets& subsets ){
     
 };
 
-Graph::EdgeList Graph::getEdgeCover(){
+Graph::EdgeList Graph::getEdgeCoverHeuristics(){
     
-    std::set<int> coveredVertexes;
+    std::unordered_set<int> coveredVertexes;
 
     EdgeList cover;
 
