@@ -1,4 +1,5 @@
 # graph_course
+This project finds graphs coved edge in NP, taking edge list as input
 ## neccessary things
 * gcc
 * cmake
