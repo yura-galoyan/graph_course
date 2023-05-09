@@ -16,6 +16,9 @@ void Graph::init( std::string pathToInputFile){
     std::ifstream file;
     file.open("../" + pathToInputFile);
     if(!file.is_open()){
+        file.open(pathToInputFile);
+    }
+    if(!file.is_open()){
         throw std::runtime_error("failed to open file");
     }
     int max = std::numeric_limits<int>::min();
