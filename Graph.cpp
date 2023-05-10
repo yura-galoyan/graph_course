@@ -6,8 +6,6 @@
 #include <algorithm>
 #include <iterator>
 
-
-
 Graph::Graph(std::string pathToInputFile ){
     init(pathToInputFile);
 }
@@ -21,6 +19,7 @@ void Graph::init( std::string pathToInputFile){
     if(!file.is_open()){
         throw std::runtime_error("failed to open file");
     }
+
     int max = std::numeric_limits<int>::min();
     int u = 0,v = 0;
     while(file >> u >> v){
@@ -77,7 +76,7 @@ void Graph::printEdgeList(const EdgeList& edges,const std::string& msg ){
         return std::to_string( elem.first ) + " " + std::to_string(elem.second);
     } );
 
-    std::copy(  std::begin(strVector), std::end(strVector),std::ostream_iterator<std::string>{std::cout,"\n"} );
+    std::copy( std::begin(strVector), std::end(strVector),std::ostream_iterator<std::string>{std::cout,"\n"} );
     std::cout<<std::endl;
 }
 
@@ -143,13 +142,9 @@ void Graph::printSubsets( const Subsets& subsets ){
 };
 
 Graph::EdgeList Graph::getEdgeCoverHeuristics(){
-    
     std::unordered_set<int> coveredVertexes;
-
     EdgeList cover;
-
     for(auto edge: edges){
-
         if(coveredVertexes.count(edge.second) == 0 || coveredVertexes.count(edge.first) == 0  ){
             coveredVertexes.insert(edge.first);
             coveredVertexes.insert(edge.second);
