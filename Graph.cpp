@@ -53,6 +53,7 @@ void Graph::printAdjacencyMatrix(){
         std::cerr<<"graph is empty"<<std::endl;
         return;
     }
+    std::cout<<"Adjacency matrix: "<<std::endl;
     for(auto a: adjacencyMatrix){
         std::copy( std::begin(a), std::end(a),std::ostream_iterator<int>{std::cout," "}  );
         std::cout<<std::endl;
@@ -69,20 +70,35 @@ void Graph::printEdgeList(const std::string& msg ){
 
 void Graph::printEdgeList(const EdgeList& edges,const std::string& msg ){
     
-    std::cout<<msg;
+    if(edges.empty()){
+        return;
+    }
     
+    std::cout<<msg;
     std::vector<std::string> strVector;
     std::transform(  std::begin(edges), std::end(edges), std::back_inserter(strVector),[](const std::pair<int,int>& elem){
-        return std::to_string( elem.first ) + " " + std::to_string(elem.second);
+        return '[' + std::to_string( elem.first ) + " " + std::to_string(elem.second) + ']';
     } );
 
     std::copy( std::begin(strVector), std::end(strVector),std::ostream_iterator<std::string>{std::cout,"\n"} );
     std::cout<<std::endl;
 }
 
-Graph::EdgeList Graph::getEdgeCoverNP(){
+bool Graph::canHaveEdgeCover(){
+    for(const auto [u,v]: edges){
+        if(u == v) return false;
+    }
+    return true;
+}
 
-    edgeSubsets = getSubsetsOffArray(edges);
+auto Graph::getEdgeCoverNP()-> EdgeList{
+
+    if(!canHaveEdgeCover()){
+        std::cout<<"Graph doesn't have edge cover"<<std::endl;
+        return EdgeList{};
+    }
+
+    auto edgeSubsets = getSubsetsOffArray(edges);
 
     
     EdgeList minEdgeList = getEdgeCoverHeuristics();
@@ -93,7 +109,6 @@ Graph::EdgeList Graph::getEdgeCoverNP(){
         };
     return minEdgeList;
     
-
 }
 
 bool Graph::isEdgeCover(const EdgeList& edgeSubset){
@@ -141,7 +156,7 @@ void Graph::printSubsets( const Subsets& subsets ){
     
 };
 
-Graph::EdgeList Graph::getEdgeCoverHeuristics(){
+auto Graph::getEdgeCoverHeuristics()->EdgeList{
     std::unordered_set<int> coveredVertexes;
     EdgeList cover;
     for(auto edge: edges){
@@ -151,8 +166,5 @@ Graph::EdgeList Graph::getEdgeCoverHeuristics(){
             cover.push_back(edge);
         }
     }
-
     return cover;
-
-
 };

@@ -31,15 +31,13 @@ private:
     
     EdgeList edges;
     Matrix adjacencyMatrix;
-    Subsets edgeSubsets;
     
     bool isEmpty = true;
     
-
-
-
+private:
     Matrix createAdjacencyMatrix(const std::vector<std::pair<int,int>>& edges, int size);
     Subsets getSubsetsOffArray(const EdgeList& list);
+    bool canHaveEdgeCover();
     bool isEdgeCover(const EdgeList&);
 
     std::unordered_set<int> vertexes;

@@ -9,7 +9,7 @@ int main(int argc, char const *argv[])
     graph.printEdgeList("Edges of graph are:\n");
 
     auto cover = graph.getEdgeCoverNP();
-    graph.printEdgeList(cover,"minimum edge cover is: \n");
+    graph.printEdgeList(cover,"Minimum edge cover is: \n");
 
 
 }
