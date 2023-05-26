@@ -8,11 +8,10 @@ void createDotFile(const Graph::EdgeList& list , const Graph::EdgeList& cover);
 
 int main(int argc, char const *argv[]){
     Graph graph("edges.txt");
-    // graph.printAdjacencyMatrix();
-    // graph.printEdgeList("Edges of graph are:\n");
+    graph.printEdgeList("Edges of graph are:\n");
 
     auto cover = graph.getEdgeCoverNP();
-    // graph.printEdgeList(cover,"Minimum edge cover is: \n");
+    graph.printEdgeList(cover,"Minimum edge cover is: \n");
     createDotFile(graph.getEdges(), cover);
 
 }
@@ -20,15 +19,13 @@ int main(int argc, char const *argv[]){
 
 void createDotFile(const Graph::EdgeList& list, const Graph::EdgeList& cover){
     std::ofstream file("../graph.dot");
-
     file << "graph{\n";
-
-    for(const auto& [u,v]: list){
-        file << u <<"--"<<v;
-        if(std::count_if(cover.begin(), cover.end(), [u,v](const auto& pair){
-            return u == pair.first && v == pair.second;
-        }  ){
-           file << " [color=red,penwidth=3]"
+    for(const auto& edge: list){
+        file << edge.first <<"--"<<edge.second;
+        if(std::count_if(cover.begin(), cover.end(), [edge](const auto& pair){
+            return edge.first == pair.first && edge.second == pair.second;
+        }  )){
+           file << " [color=red,penwidth=3]";
         }
         file << "\n";
         
@@ -36,6 +33,14 @@ void createDotFile(const Graph::EdgeList& list, const Graph::EdgeList& cover){
     }
     file << "}";
     file.close();
+
     system("dot -Tpng -O ../graph.dot");
+#ifdef __linux__
+    system("rm ../graph.dot");
+#endif
+#ifdef _WIN32
+    system("del ..\\graph.dot");
+#endif
+
     
 };

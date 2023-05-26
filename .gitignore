@@ -34,3 +34,4 @@
 #directories
 build/
 .vscode/
+graph.dot.png
