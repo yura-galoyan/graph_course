@@ -24,7 +24,15 @@ void createDotFile(const Graph::EdgeList& list, const Graph::EdgeList& cover){
     file << "graph{\n";
 
     for(const auto& [u,v]: list){
-        file << u <<"--"<<v<<"\n";
+        file << u <<"--"<<v;
+        if(std::count_if(cover.begin(), cover.end(), [u,v](const auto& pair){
+            return u == pair.first && v == pair.second;
+        }  ){
+           file << " [color=red,penwidth=3]"
+        }
+        file << "\n";
+        
+        
     }
     file << "}";
     file.close();
