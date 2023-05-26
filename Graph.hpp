@@ -8,7 +8,7 @@
 #include <unordered_set>
 
 class Graph{
-private:
+public:
     using Matrix =  std::vector<std::vector <int > >;
     using Edge = std::pair<int,int>;
     using EdgeList = std::vector<Edge>;
@@ -26,7 +26,7 @@ public:
 
     EdgeList getEdgeCoverHeuristics();
     EdgeList getEdgeCoverNP();
-
+    inline EdgeList getEdges(){ return edges; };
 private:
     
     EdgeList edges;
