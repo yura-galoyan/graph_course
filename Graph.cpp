@@ -35,7 +35,6 @@ void Graph::init( std::string pathToInputFile){
 Graph::Matrix Graph::createAdjacencyMatrix(const std::vector< std::pair<int,int>>& edges,const int size){
     std::vector<int> temp;
     Matrix temp1;
-
     temp.assign(size + 1, 0);
     temp1.assign(size + 1,temp);
 
@@ -57,7 +56,7 @@ void Graph::printAdjacencyMatrix(){
     std::cout<<"Adjacency matrix: "<<std::endl;
     for(auto a: adjacencyMatrix){
         std::copy( std::begin(a), std::end(a),std::ostream_iterator<int>{std::cout," "}  );
-        std::cout<<std::endl;
+        std::cout<<"\n";
     }
     std::cout<<std::endl;
 };
@@ -70,17 +69,14 @@ void Graph::printEdgeList(const std::string& msg ){
 
 
 void Graph::printEdgeList(const EdgeList& edges,const std::string& msg ){
-    
     if(edges.empty()){
         return;
     }
-    
     std::cout<<msg;
     std::vector<std::string> strVector;
     std::transform(  std::begin(edges), std::end(edges), std::back_inserter(strVector),[](const std::pair<int,int>& elem){
         return '[' + std::to_string( elem.first ) + " " + std::to_string(elem.second) + ']';
     } );
-
     std::copy( std::begin(strVector), std::end(strVector),std::ostream_iterator<std::string>{std::cout,"\n"} );
     std::cout<<std::endl;
 }
@@ -93,40 +89,30 @@ bool Graph::canHaveEdgeCover(){
 }
 
 auto Graph::getEdgeCoverNP()-> EdgeList{
-
     if(!canHaveEdgeCover()){
         std::cout<<"Graph doesn't have edge cover"<<std::endl;
         return EdgeList{};
     }
-
     auto edgeSubsets = getSubsetsOffArray(edges);
-
-    
     EdgeList minEdgeList = getEdgeCoverHeuristics();
-
     for(const auto& edgeSubset: edgeSubsets)
         if(isEdgeCover(edgeSubset)){
             minEdgeList = minEdgeList.size() > edgeSubset.size() ? edgeSubset : minEdgeList;
         };
     return minEdgeList;
-    
 }
 
 bool Graph::isEdgeCover(const EdgeList& edgeSubset){
-
     std::unordered_set<int> coveredVertexes;
-
     for(const auto& [u,v]: edgeSubset){
         coveredVertexes.insert(u);
         coveredVertexes.insert(v);
     }
     if(coveredVertexes.size() == vertexes.size()) return true;
-
     return false;
 }
 
 Graph::Subsets Graph::getSubsetsOffArray(const EdgeList& list){
-
     int n = list.size();
     std::vector<std::pair<int,int>> v;
     Subsets subsets;
@@ -138,23 +124,19 @@ Graph::Subsets Graph::getSubsetsOffArray(const EdgeList& list){
             }
         }
     }
-
     return subsets;
 };
 
 
 void Graph::printSubsets( const Subsets& subsets ){
     std::cout<< std::string(100,'-')<<std::endl;
-    
     for(int i = 0;i< subsets.size(); ++i){
         for(int j = 0;j<subsets[i].size();++j){
             std::cout<<subsets[i][j].first<<" "<<subsets[i][j].second<<"| ";
         }
         std::cout<<std::endl;
     }
-  
     std::cout<< std::string(100,'-')<<std::endl;
-    
 };
 
 auto Graph::getEdgeCoverHeuristics()->EdgeList{

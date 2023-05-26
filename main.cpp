@@ -2,34 +2,39 @@
 
 #include <fstream>
 #include <algorithm>
-#include <iterator>
 #include <iostream>
-void createDotFile(const Graph::EdgeList& list , const Graph::EdgeList& cover);
 
+void createGraphPng(const Graph::EdgeList& list, const Graph::EdgeList& cover);
 int main(int argc, char const *argv[]){
     Graph graph("edges.txt");
     graph.printEdgeList("Edges of graph are:\n");
 
     auto cover = graph.getEdgeCoverNP();
+    if(cover.empty()){
+       graph.printEdgeList(cover,"edge cover doesn't exist"); 
+    }
     graph.printEdgeList(cover,"Minimum edge cover is: \n");
-    createDotFile(graph.getEdges(), cover);
+    createGraphPng(graph.getEdges(), cover);
 
 }
 
 
-void createDotFile(const Graph::EdgeList& list, const Graph::EdgeList& cover){
+void createGraphPng(const Graph::EdgeList& list, const Graph::EdgeList& cover){
     std::ofstream file("../graph.dot");
     file << "graph{\n";
     for(const auto& edge: list){
-        file << edge.first <<"--"<<edge.second;
+        if(edge.first == edge.second){
+            file<<edge.first<<";";
+        }
+        else{
+            file << edge.first <<"--"<<edge.second;
+        }
         if(std::count_if(cover.begin(), cover.end(), [edge](const auto& pair){
             return edge.first == pair.first && edge.second == pair.second;
         }  )){
            file << " [color=red,penwidth=3]";
         }
         file << "\n";
-        
-        
     }
     file << "}";
     file.close();
