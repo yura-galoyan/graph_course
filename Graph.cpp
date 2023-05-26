@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iterator>
 
+
 Graph::Graph(std::string pathToInputFile ){
     init(pathToInputFile);
 }
