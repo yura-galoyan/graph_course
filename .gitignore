@@ -35,3 +35,6 @@
 build/
 .vscode/
 graph.dot.png
+*.bat
+*.sh
+
