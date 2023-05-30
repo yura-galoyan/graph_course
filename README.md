@@ -3,6 +3,9 @@ This project finds graphs edge graphs in NP, taking edge list as input
 ## neccessary things
 * gcc
 * cmake(preferable)
+* graphviz
+# graphviz
+on windows donf forget to add graphviz(dot language) to PATH 
 ## input preconditions
 edges in file must be written in this format in edges.txt file,that is placed in same folder as out file\
     u1 v1\
