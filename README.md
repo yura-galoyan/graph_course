@@ -3,10 +3,6 @@ This project finds cover graphs edge in NP, taking edge list as input
 ## neccessary things
 * gcc
 * cmake(preferable)
-## on Linux use bash build.sh to build project
-```bash
-bash build.sh
-```
 
 ## input preconditions
 edges in file must be written in this format in edges.txt file,that is placed in same folder as out file
